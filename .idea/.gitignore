@@ -55,7 +55,6 @@ out/
 .idea/codeStyles/
 .idea/runConfigurations/
 .idea/gradle.xml
-.idea/libraries/
 .idea/artifacts/
 .idea/tasks/
 .idea/usage.statistics.xml
