@@ -57,5 +57,13 @@ public class ScratchGameTest {
 
         assertNotNull(config, "Config Should not be null");
         assertEquals(3, config.getRows());
+
+        assertEquals(3, config.getColumns());
+        assertEquals(11, config.getSymbols().size());
+        assertEquals(9, config.getProbabilities().getStandardSymbols().size());
+        assertEquals(2, config.getProbabilities().getBonusSymbols().getSymbols().get("5x"));
+
+        assertEquals(11, config.getWinCombinations().size());
+
     }
 }
