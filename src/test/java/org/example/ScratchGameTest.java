@@ -3,7 +3,11 @@ package org.example;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.nio.file.Paths;
 import java.util.Map;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class ScratchGameTest {
 
@@ -44,5 +48,14 @@ public class ScratchGameTest {
     public void generateMatrixWithDifferentSymbols() {
         String[][] matrix = game.generateMatrix(3, 3, symbols);
         assert symbols.containsKey(matrix[0][0]);
+    }
+
+    @Test
+    public void testValidConfig(){
+        String configPath = Paths.get("src", "main", "resources", "config.json").toString();
+        GameConfig config = ConfigLoader.loadConfig(configPath);
+
+        assertNotNull(config, "Config Should not be null");
+        assertEquals(3, config.getRows());
     }
 }
