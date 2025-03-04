@@ -1,21 +1,38 @@
 package org.example;
 
+import org.example.Domain.ProbabilityConfig;
+import org.example.Domain.StandardSymbolProbability;
+
 import java.util.*;
 
 public class MatrixGenerator {
-    public String[][] generateMatrix(int rows, int cols, List<Map<String, Integer>> standardSymbolsPerCell, Map<String, Integer> bonusSymbols) {
-        // Combine standard and bonus probabilities for each cell
-        List<Map<String, Integer>> combinedProbabilities = combineCellProbabilities(standardSymbolsPerCell, bonusSymbols);
-
+    public String[][] generateMatrix(int rows, int cols, ProbabilityConfig probabilityConfig) {
         String[][] matrix = new String[rows][cols];
-        int cellIndex = 0;
 
-        // Generate matrix based on combined probabilities
+        // First fill the matrix with standard symbols
+        int cellIndex = 0;
         for (int row = 0; row < rows; row++) {
             for (int col = 0; col < cols; col++) {
-                // Use the combined probabilities for this specific cell
-                Map<String, Integer> cellProbabilities = combinedProbabilities.get(cellIndex++);
-                matrix[row][col] = getRandomSymbol(cellProbabilities);
+                Map<String, Integer> standardProbabilities =
+                        probabilityConfig.getStandardSymbols().get(cellIndex++).getSymbols();
+                matrix[row][col] = getRandomSymbol(standardProbabilities);
+            }
+        }
+
+        // Then potentially add bonus symbols (with a controlled amount)
+        int maxBonusSymbols = 2; // Or any other reasonable limit
+        int bonusSymbolsAdded = 0;
+        Map<String, Integer> bonusProbs = probabilityConfig.getBonusSymbols().getSymbols();
+
+        while (bonusSymbolsAdded < maxBonusSymbols) {
+            int randomRow = new Random().nextInt(rows);
+            int randomCol = new Random().nextInt(cols);
+
+            // Small probability to replace standard symbol with bonus
+            if (new Random().nextInt(100) < 15) { // 15% chance
+                String bonusSymbol = getRandomSymbol(bonusProbs);
+                matrix[randomRow][randomCol] = bonusSymbol;
+                bonusSymbolsAdded++;
             }
         }
 

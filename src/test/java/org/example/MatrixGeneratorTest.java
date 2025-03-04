@@ -1,6 +1,7 @@
 package org.example;
 
 import org.example.Domain.GameConfig;
+import org.example.Domain.StandardSymbolProbability;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -8,6 +9,7 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -18,6 +20,8 @@ public class MatrixGeneratorTest {
     MatrixGenerator game;
     List<Map<String, Integer>> standardSymbolsPerCell = TestFixtures.getStandardSymbolsPerCell();
     Map<String, Integer> bonusSymbols = TestFixtures.getBonusSymbols();
+    String configPath = Paths.get("src", "main", "resources", "config.json").toString();
+    GameConfig config = ConfigLoader.loadConfig(configPath);
 
     @BeforeEach
     void setUp() {
@@ -27,27 +31,26 @@ public class MatrixGeneratorTest {
 
     @Test
     public void generateMatrix() {
-        String[][] matrix = game.generateMatrix(3, 3, standardSymbolsPerCell, symbols);
+        String[][] matrix = game.generateMatrix(3, 3, config.getProbabilities());
         assert matrix.length == 3;
         assert matrix[0].length == 3;
     }
 
     @Test
     public void generateMatrixWithSpecificSymbol() {
-        String[][] matrix = game.generateMatrix(3, 3, standardSymbolsPerCell, symbols);
+        String[][] matrix = game.generateMatrix(3, 3, config.getProbabilities());
         assert symbols.containsKey(matrix[0][0]);
     }
 
     @Test
     public void generateMatrixWithDifferentSymbols() {
-        String[][] matrix = game.generateMatrix(3, 3, standardSymbolsPerCell, symbols);
+        String[][] matrix = game.generateMatrix(3, 3, config.getProbabilities());
         assert symbols.containsKey(matrix[0][0]);
     }
 
     @Test
     public void testValidConfig() {
-        String configPath = Paths.get("src", "main", "resources", "config.json").toString();
-        GameConfig config = ConfigLoader.loadConfig(configPath);
+
 
         assertNotNull(config, "Config Should not be null");
         assertEquals(3, config.getRows());
@@ -70,7 +73,7 @@ public class MatrixGeneratorTest {
         int cols = 3;
 
         // When
-        String[][] matrix = generator.generateMatrix(rows, cols, standardSymbolsPerCell, bonusSymbols);
+        String[][] matrix = generator.generateMatrix(rows, cols, config.getProbabilities());
 
         // Print the generated matrix
 
