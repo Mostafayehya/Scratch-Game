@@ -1,7 +1,7 @@
 package org.example;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.example.Domain.GameConfig;
 
 import java.io.File;
 import java.io.IOException;

@@ -1,5 +1,6 @@
 package org.example;
 
+import org.example.Domain.GameConfig;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -9,7 +10,7 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-public class ScratchGameTest {
+public class MatrixGeneratorTest {
 
     Map<String, Integer> symbols = Map.of(
             "A", 1,
@@ -23,11 +24,11 @@ public class ScratchGameTest {
             "+1000", 1000,
             "+500", 500
     );
-    ScratchGame game;
+    MatrixGenerator game;
 
     @BeforeEach
     void setUp() {
-        game = new ScratchGame();
+        game = new MatrixGenerator();
         //symbols.put("MISS", 0);
     }
 

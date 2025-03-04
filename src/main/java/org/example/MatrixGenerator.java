@@ -1,8 +1,9 @@
 package org.example;
 
 import java.util.Map;
+import java.util.Random;
 
-public class ScratchGame {
+public class MatrixGenerator {
     public String[][] generateMatrix(int rows, int cols, Map<String, Integer> symbols) {
         String[][] matrix = new String[rows][cols];
         for (int row = 0; row < rows; row++) {

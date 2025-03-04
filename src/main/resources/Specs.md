@@ -6,5 +6,12 @@ Generate 3x3 matrix
 
 Parse and deserialize the config file to classes 
 
+Take input from command line for config file and betting amount 
+
+
+
+Print the matrix and the result of the game
+
+
 
 
