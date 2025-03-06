@@ -1,7 +1,6 @@
 package org.example;
 
 import org.example.Domain.GameConfig;
-import org.example.Domain.StandardSymbolProbability;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -9,7 +8,6 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -17,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 public class MatrixGeneratorTest {
 
     Map<String, Integer> symbols;
-    MatrixGenerator game;
+    MatrixGenerator matrixGenerator;
     List<Map<String, Integer>> standardSymbolsPerCell = TestFixtures.getStandardSymbolsPerCell();
     Map<String, Integer> bonusSymbols = TestFixtures.getBonusSymbols();
     String configPath = Paths.get("src", "main", "resources", "config.json").toString();
@@ -25,26 +23,26 @@ public class MatrixGeneratorTest {
 
     @BeforeEach
     void setUp() {
-        game = new MatrixGenerator();
+        matrixGenerator = new MatrixGenerator();
         symbols = TestFixtures.getSymbols();
     }
 
     @Test
-    public void generateMatrix() {
-        String[][] matrix = game.generateMatrix(3, 3, config.getProbabilities());
+    public void generate() {
+        String[][] matrix = matrixGenerator.generate(3, 3, config.getProbabilities());
         assert matrix.length == 3;
         assert matrix[0].length == 3;
     }
 
     @Test
-    public void generateMatrixWithSpecificSymbol() {
-        String[][] matrix = game.generateMatrix(3, 3, config.getProbabilities());
+    public void generateWithSpecificSymbol() {
+        String[][] matrix = matrixGenerator.generate(3, 3, config.getProbabilities());
         assert symbols.containsKey(matrix[0][0]);
     }
 
     @Test
-    public void generateMatrixWithDifferentSymbols() {
-        String[][] matrix = game.generateMatrix(3, 3, config.getProbabilities());
+    public void generateWithDifferentSymbols() {
+        String[][] matrix = matrixGenerator.generate(3, 3, config.getProbabilities());
         assert symbols.containsKey(matrix[0][0]);
     }
 
@@ -65,7 +63,7 @@ public class MatrixGeneratorTest {
     }
 
     @Test
-    public void generateMatrixWithPossibilities() {
+    public void generateWithPossibilities() {
         // Given
 
         MatrixGenerator generator = new MatrixGenerator();
@@ -73,11 +71,7 @@ public class MatrixGeneratorTest {
         int cols = 3;
 
         // When
-        String[][] matrix = generator.generateMatrix(rows, cols, config.getProbabilities());
-
-        // Print the generated matrix
-
-        // assert the matrix contains any of the bounus symbols
+        String[][] matrix = generator.generate(rows, cols, config.getProbabilities());
 
         System.out.println("Generated Matrix:");
         for (String[] row : matrix) {
@@ -97,7 +91,5 @@ public class MatrixGeneratorTest {
         }
 
         assert containsBonusSymbol : "The generated matrix does not contain any bonus symbols.";
-
-
     }
 }

@@ -1,27 +1,29 @@
 package org.example.Domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class SymbolConfig {
-    private double reward_multiplier;
+    @JsonProperty("reward_multiplier")
+    private double rewardMultiplier;
     private String type;
     private String impact;
 
     public SymbolConfig() {
     }
 
-    public SymbolConfig(double reward_multiplier, String type) {
-        this.reward_multiplier = reward_multiplier;
+    public SymbolConfig(double rewardMultiplier, String type) {
+        this.rewardMultiplier = rewardMultiplier;
         this.type = type;
     }
 
-    public double getReward_multiplier() {
-        return reward_multiplier;
+    public double getRewardMultiplier() {
+        return rewardMultiplier;
     }
 
-    public void setReward_multiplier(double reward_multiplier) {
-        this.reward_multiplier = reward_multiplier;
+    public void setRewardMultiplier(double rewardMultiplier) {
+        this.rewardMultiplier = rewardMultiplier;
     }
 
     public String getType() {
