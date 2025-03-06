@@ -1,6 +1,7 @@
 package org.example;
 
 import org.example.Domain.GameConfig;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.nio.file.Paths;
@@ -8,105 +9,70 @@ import java.nio.file.Paths;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ScoreCalculatorTest {
+    private GameConfig config;
+    private ScoreCalculator calculator;
+    private static final String CONFIG_PATH = Paths.get("src", "main", "resources", "config.json").toString();
+    private static final double STANDARD_BET = 100.0;
+    private static final double SMALL_BET = 1.0;
 
-    String configPath = Paths.get("src", "main", "resources", "config.json").toString();
-    GameConfig config = ConfigLoader.loadConfig(configPath);
+    @BeforeEach
+    void setUp() {
+        config = ConfigLoader.loadConfig(CONFIG_PATH);
+    }
+
+    private ScoreCalculator createCalculator(double betAmount) {
+        return new ScoreCalculator(config.getWinCombinations(), config.getSymbols(), betAmount);
+    }
+
+    private Double calculateScore(String[][] matrix, double betAmount) {
+        calculator = createCalculator(betAmount);
+        return calculator.calculateScore(matrix);
+    }
 
     @Test
-    public void TestScoreCalculator() {
-        // Given
+    void testVerticalLinesCombination() {
         String[][] matrix = {
                 {"A", "B", "C"},
                 {"A", "B", "C"},
                 {"A", "B", "C"}
         };
-        double betAmount = 1.0;
-        ScoreCalculator calculator = new ScoreCalculator(
-                config.getWinCombinations(),
-                config.getSymbols(),
-                betAmount
-        );
 
-        // When
-        Double result = calculator.calculateScore(matrix);
-
-        System.out.println(result);
-
-        // Then
-        assertEquals(21, result);
+        Double result = calculateScore(matrix, SMALL_BET);
+        assertEquals(21, result, "Should calculate correct reward for vertical lines");
     }
 
     @Test
-    public void testScoreCalculatorWithBonus() {
-        // Given
+    void testSameSymbolsWithBonus() {
         String[][] matrix = {
                 {"A", "A", "B"},
                 {"A", "+1000", "B"},
                 {"A", "A", "B"}
         };
-        double betAmount = 100.0;
-        ScoreCalculator calculator = new ScoreCalculator(
-                config.getWinCombinations(),
-                config.getSymbols(),
-                betAmount
-        );
 
-        // When
-        Double result = calculator.calculateScore(matrix);
-
-        System.out.println(result);
-
-        // Then
-        assertEquals(3600, result);
+        Double result = calculateScore(matrix, STANDARD_BET);
+        assertEquals(3600, result, "Should calculate correct reward with bonus symbol");
     }
 
     @Test
-    public void testThirdExampleOfLostGame(){
-
-        // Given
+    void testLostGame() {
         String[][] matrix = {
                 {"A", "B", "C"},
                 {"E", "B", "5x"},
                 {"F", "D", "C"}
         };
-        double betAmount = 100.0;
-        ScoreCalculator calculator = new ScoreCalculator(
-                config.getWinCombinations(),
-                config.getSymbols(),
-                betAmount
-        );
 
-        // When
-        Double result = calculator.calculateScore(matrix);
-
-        System.out.println(result);
-
-        // Then
-        assertEquals(0, result);
+        Double result = calculateScore(matrix, STANDARD_BET);
+        assertEquals(0, result, "Should return 0 for lost game");
     }
 
     @Test
-    public void testFourthExample(){
-
-        // Given
+    void testThreeSameSymbolsWithMultiplier() {
         String[][] matrix = {
                 {"A", "B", "C"},
                 {"E", "B", "10x"},
                 {"F", "D", "B"}
         };
-        double betAmount = 100.0;
-        ScoreCalculator calculator = new ScoreCalculator(
-                config.getWinCombinations(),
-                config.getSymbols(),
-                betAmount
-        );
 
-        // When
-        Double result = calculator.calculateScore(matrix);
-
-        System.out.println(result);
-
-        // Then
-        assertEquals(3000, result);
-    }
-}
+        Double result = calculateScore(matrix, STANDARD_BET);
+        assertEquals(3000, result, "Should calculate correct reward for three same symbols with multiplier");
+    }}
