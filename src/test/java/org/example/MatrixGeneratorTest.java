@@ -59,9 +59,9 @@ public class MatrixGeneratorTest {
         assertEquals(EXPECTED_ROWS, config.rows(), "Config should have correct number of rows");
         assertEquals(EXPECTED_COLS, config.columns(), "Config should have correct number of columns");
         assertEquals(EXPECTED_SYMBOLS_COUNT, config.symbols().size(), "Config should have correct number of symbols");
-        assertEquals(EXPECTED_STANDARD_SYMBOLS_COUNT, config.probabilities().getStandardSymbols().size(),
+        assertEquals(EXPECTED_STANDARD_SYMBOLS_COUNT, config.probabilities().standardSymbols().size(),
                 "Config should have correct number of standard symbols");
-        assertEquals(EXPECTED_BONUS_5X_VALUE, config.probabilities().getBonusSymbols().symbols().get("5x"),
+        assertEquals(EXPECTED_BONUS_5X_VALUE, config.probabilities().bonusSymbols().symbols().get("5x"),
                 "Config should have correct 5x bonus value");
         assertEquals(EXPECTED_SYMBOLS_COUNT, config.winCombinations().size(),
                 "Config should have correct number of win combinations");

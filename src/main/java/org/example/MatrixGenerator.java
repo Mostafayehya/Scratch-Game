@@ -13,7 +13,7 @@ public class MatrixGenerator {
         for (int row = 0; row < rows; row++) {
             for (int col = 0; col < cols; col++) {
                 Map<String, Integer> standardProbabilities =
-                        probabilityConfig.getStandardSymbols().get(cellIndex++).getSymbols();
+                        probabilityConfig.standardSymbols().get(cellIndex++).symbols();
                 matrix[row][col] = getRandomSymbol(standardProbabilities);
             }
         }
@@ -21,7 +21,7 @@ public class MatrixGenerator {
         // Then potentially add bonus symbols (with a controlled amount)
         int maxBonusSymbols = 1; // Or any other reasonable limit
         int bonusSymbolsAdded = 0;
-        Map<String, Integer> bonusProbs = probabilityConfig.getBonusSymbols().symbols();
+        Map<String, Integer> bonusProbs = probabilityConfig.bonusSymbols().symbols();
 
         while (bonusSymbolsAdded < maxBonusSymbols) {
             int randomRow = new Random().nextInt(rows);
@@ -52,23 +52,4 @@ public class MatrixGenerator {
         }
         return null; // Should never reach here if probabilities are valid
     }
-
-    private List<Map<String, Integer>> combineCellProbabilities(List<Map<String, Integer>> standardSymbolsPerCell, Map<String, Integer> bonusSymbols) {
-        List<Map<String, Integer>> combinedProbabilities = new ArrayList<>();
-
-        // Combine for each standard symbol map (per cell)
-        for (Map<String, Integer> cellProbabilities : standardSymbolsPerCell) {
-            Map<String, Integer> combinedMap = new HashMap<>(cellProbabilities);
-
-            // Add global bonus probabilities to each cell
-            bonusSymbols.forEach((key, value) ->
-                    combinedMap.merge(key, value, Integer::sum)
-            );
-
-            combinedProbabilities.add(combinedMap);
-        }
-
-        return combinedProbabilities;
-    }
-
 }
