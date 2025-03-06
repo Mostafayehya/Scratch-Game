@@ -36,4 +36,28 @@ class ScoreCalculatorTest {
         assertEquals(21, result);
     }
 
+    @Test
+    public void testScoreCalculatorWithBonus() {
+        // Given
+        String[][] matrix = {
+                {"A", "A", "B"},
+                {"A", "+1000", "B"},
+                {"A", "A", "B"}
+        };
+        double betAmount = 100.0;
+        ScoreCalculator calculator = new ScoreCalculator(
+                config.getWinCombinations(),
+                config.getSymbols(),
+                betAmount
+        );
+
+        // When
+        Double result = calculator.calculateScore(matrix);
+
+        System.out.println(result);
+
+        // Then
+        assertEquals(3600, result);
+    }
+
 }

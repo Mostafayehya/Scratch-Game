@@ -31,10 +31,10 @@ public class ScoreCalculator {
             String bonusSymbol = findBonusSymbol(matrix);
             if (bonusSymbol != null) {
                 SymbolConfig bonusConfig = symbols.get(bonusSymbol);
-                if ("multiply_reward".equals(bonusConfig.getImpact())) {
+                if ("multiply_reward".equals(bonusConfig.getImpact()) && bonusConfig.getRewardMultiplier() != 0) {
                     totalReward *= bonusConfig.getRewardMultiplier();
                 } else if ("extra_bonus".equals(bonusConfig.getImpact())) {
-                    totalReward += bonusConfig.getRewardMultiplier();
+                    totalReward += bonusConfig.getExtra();
                 }
             }
         }
@@ -50,7 +50,7 @@ public class ScoreCalculator {
         // Check same symbol counts
         for (Map.Entry<String, WinCombination> entry : winCombinations.entrySet()) {
             WinCombination combo = entry.getValue();
-            if ("same_symbols".equals(combo.getWhen()) && symbolCount >= combo.getCount()) {
+            if ("same_symbols".equals(combo.getWhen()) && symbolCount == combo.getCount()) {
                 reward = betAmount * symbolConfig.getRewardMultiplier() * combo.getRewardMultiplier();
                 break;
             }

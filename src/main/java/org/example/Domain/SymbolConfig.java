@@ -9,6 +9,15 @@ public class SymbolConfig {
     private double rewardMultiplier;
     private String type;
     private String impact;
+    private double extra;
+
+    public double getExtra() {
+        return extra;
+    }
+
+    public void setExtra(double extra) {
+        this.extra = extra;
+    }
 
     public SymbolConfig() {
     }
