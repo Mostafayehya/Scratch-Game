@@ -1,6 +1,7 @@
 package org.example;
 
 import org.example.Domain.GameConfig;
+import org.example.Domain.GameResult;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -24,7 +25,7 @@ class ScoreCalculatorTest {
         return new ScoreCalculator(config.winCombinations(), config.symbols(), betAmount);
     }
 
-    private Double calculateScore(String[][] matrix, double betAmount) {
+    private GameResult calculateScore(String[][] matrix, double betAmount) {
         calculator = createCalculator(betAmount);
         return calculator.calculateScore(matrix);
     }
@@ -37,8 +38,8 @@ class ScoreCalculatorTest {
                 {"A", "B", "C"}
         };
 
-        Double result = calculateScore(matrix, SMALL_BET);
-        assertEquals(21, result, "Should calculate correct reward for vertical lines");
+        GameResult result = calculateScore(matrix, SMALL_BET);
+        assertEquals(21, result.reward(), "Should calculate correct reward for vertical lines");
     }
 
     @Test
@@ -49,8 +50,8 @@ class ScoreCalculatorTest {
                 {"A", "A", "B"}
         };
 
-        Double result = calculateScore(matrix, STANDARD_BET);
-        assertEquals(3600, result, "Should calculate correct reward with bonus symbol");
+        GameResult result = calculateScore(matrix, STANDARD_BET);
+        assertEquals(3600, result.reward(), "Should calculate correct reward with bonus symbol");
     }
 
     @Test
@@ -61,8 +62,8 @@ class ScoreCalculatorTest {
                 {"F", "D", "C"}
         };
 
-        Double result = calculateScore(matrix, STANDARD_BET);
-        assertEquals(0, result, "Should return 0 for lost game");
+        GameResult result = calculateScore(matrix, STANDARD_BET);
+        assertEquals(0, result.reward(), "Should return 0 for lost game");
     }
 
     @Test
@@ -73,6 +74,23 @@ class ScoreCalculatorTest {
                 {"F", "D", "B"}
         };
 
-        Double result = calculateScore(matrix, STANDARD_BET);
-        assertEquals(3000, result, "Should calculate correct reward for three same symbols with multiplier");
-    }}
+        GameResult result = calculateScore(matrix, STANDARD_BET);
+        assertEquals(3000, result.reward(), "Should calculate correct reward for three same symbols with multiplier");
+    }
+
+    @Test
+    void testGameResultFormat(){
+        String[][] matrix = {
+                {"A", "B", "C"},
+                {"E", "B", "10x"},
+                {"F", "D", "B"}
+        };
+
+        GameResult result = calculateScore(matrix, STANDARD_BET);
+        assertEquals(3000, result.reward(), "Should calculate correct reward for three same symbols with multiplier");
+        assertEquals(1, result.appliedWinningCombinations().size(), "Should have one winning combination");
+        assertEquals("10x", result.appliedBonusSymbol(), "Should have correct bonus symbol");
+        assertEquals(3, result.matrix().length, "Should have correct number of rows");
+        assertEquals(3, result.matrix()[0].length, "Should have correct number of columns");
+    }
+}

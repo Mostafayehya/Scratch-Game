@@ -1,5 +1,6 @@
 package org.example;
 
+import org.example.Domain.GameResult;
 import org.example.Domain.SymbolConfig;
 import org.example.Domain.WinCombination;
 
@@ -16,11 +17,12 @@ public class ScoreCalculator {
         this.betAmount = betAmount;
     }
 
-    public double calculateScore(String[][] matrix) {
+    public GameResult calculateScore(String[][] matrix) {
         double totalReward = 0;
         // Calculate standard symbol combinations
+        Map<String, List<String>> appliedWinningCombinations = new HashMap<>();
         for (String symbol : findUniqueStandardSymbols(matrix)) {
-            double symbolReward = calculateSymbolReward(matrix, symbol);
+            double symbolReward = calculateSymbolReward(matrix, symbol, appliedWinningCombinations);
             if (symbolReward > 0) {
                 totalReward += symbolReward;
             }
@@ -39,10 +41,10 @@ public class ScoreCalculator {
             }
         }
 
-        return totalReward;
+        return new GameResult(matrix, totalReward, Collections.emptyMap(), "");
     }
 
-    private double calculateSymbolReward(String[][] matrix, String symbol) {
+    private double calculateSymbolReward(String[][] matrix, String symbol, Map<String, List<String>> appliedWinningCombinations) {
         double reward = 0;
         int symbolCount = countSymbolOccurrences(matrix, symbol);
         SymbolConfig symbolConfig = symbols.get(symbol);
@@ -51,6 +53,7 @@ public class ScoreCalculator {
         for (Map.Entry<String, WinCombination> entry : winCombinations.entrySet()) {
             WinCombination combo = entry.getValue();
             if ("same_symbols".equals(combo.when()) && symbolCount == combo.count()) {
+                appliedWinningCombinations.put(symbol, List.of(entry.getKey()));
                 reward = betAmount * symbolConfig.rewardMultiplier() * combo.rewardMultiplier();
                 break;
             }
@@ -60,7 +63,8 @@ public class ScoreCalculator {
         for (Map.Entry<String, WinCombination> entry : winCombinations.entrySet()) {
             WinCombination combo = entry.getValue();
             if ("linear_symbols".equals(combo.when()) && hasLinearPattern(matrix, symbol, combo)) {
-                reward *=  combo.rewardMultiplier();
+                appliedWinningCombinations.put(symbol, List.of(entry.getKey()));
+                reward *= combo.rewardMultiplier();
             }
         }
 
