@@ -2,23 +2,10 @@ package org.example.Domain;
 
 import java.util.Map;
 
-public class BonusSymbolProbability {
-    private Map<String, Integer> symbols;
-
-    public BonusSymbolProbability() {
+public record BonusSymbolProbability(
+        Map<String, Integer> symbols
+) {
+    public BonusSymbolProbability {
+        symbols = Map.copyOf(symbols);
     }
-
-    public BonusSymbolProbability(Map<String, Integer> symbols) {
-        this.symbols = symbols;
-    }
-
-    public Map<String, Integer> getSymbols() {
-        return symbols;
-    }
-
-    public void setSymbols(Map<String, Integer> symbols) {
-        this.symbols = symbols;
-    }
-
-
 }

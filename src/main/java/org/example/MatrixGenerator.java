@@ -21,7 +21,7 @@ public class MatrixGenerator {
         // Then potentially add bonus symbols (with a controlled amount)
         int maxBonusSymbols = 1; // Or any other reasonable limit
         int bonusSymbolsAdded = 0;
-        Map<String, Integer> bonusProbs = probabilityConfig.getBonusSymbols().getSymbols();
+        Map<String, Integer> bonusProbs = probabilityConfig.getBonusSymbols().symbols();
 
         while (bonusSymbolsAdded < maxBonusSymbols) {
             int randomRow = new Random().nextInt(rows);
