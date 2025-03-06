@@ -56,19 +56,19 @@ public class MatrixGeneratorTest {
     @Test
     void shouldLoadValidConfiguration() {
         assertNotNull(config, "Config should not be null");
-        assertEquals(EXPECTED_ROWS, config.getRows(), "Config should have correct number of rows");
-        assertEquals(EXPECTED_COLS, config.getColumns(), "Config should have correct number of columns");
-        assertEquals(EXPECTED_SYMBOLS_COUNT, config.getSymbols().size(), "Config should have correct number of symbols");
-        assertEquals(EXPECTED_STANDARD_SYMBOLS_COUNT, config.getProbabilities().getStandardSymbols().size(),
+        assertEquals(EXPECTED_ROWS, config.rows(), "Config should have correct number of rows");
+        assertEquals(EXPECTED_COLS, config.columns(), "Config should have correct number of columns");
+        assertEquals(EXPECTED_SYMBOLS_COUNT, config.symbols().size(), "Config should have correct number of symbols");
+        assertEquals(EXPECTED_STANDARD_SYMBOLS_COUNT, config.probabilities().getStandardSymbols().size(),
                 "Config should have correct number of standard symbols");
-        assertEquals(EXPECTED_BONUS_5X_VALUE, config.getProbabilities().getBonusSymbols().getSymbols().get("5x"),
+        assertEquals(EXPECTED_BONUS_5X_VALUE, config.probabilities().getBonusSymbols().getSymbols().get("5x"),
                 "Config should have correct 5x bonus value");
-        assertEquals(EXPECTED_SYMBOLS_COUNT, config.getWinCombinations().size(),
+        assertEquals(EXPECTED_SYMBOLS_COUNT, config.winCombinations().size(),
                 "Config should have correct number of win combinations");
     }
 
     private String[][] generateMatrix() {
-        return matrixGenerator.generate(EXPECTED_ROWS, EXPECTED_COLS, config.getProbabilities());
+        return matrixGenerator.generate(EXPECTED_ROWS, EXPECTED_COLS, config.probabilities());
     }
 
     private boolean containsBonusSymbol(String[][] matrix) {

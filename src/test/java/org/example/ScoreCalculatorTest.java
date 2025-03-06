@@ -21,7 +21,7 @@ class ScoreCalculatorTest {
     }
 
     private ScoreCalculator createCalculator(double betAmount) {
-        return new ScoreCalculator(config.getWinCombinations(), config.getSymbols(), betAmount);
+        return new ScoreCalculator(config.winCombinations(), config.symbols(), betAmount);
     }
 
     private Double calculateScore(String[][] matrix, double betAmount) {
