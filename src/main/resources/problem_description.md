@@ -312,9 +312,9 @@ Won game:
 
 ![Won Game](won_game_3x3.png "Won with 10x")
 
-| input             | output                                                                                                                                                                                                                                                   |
-|-------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| "bet_amount": 100 | { </br> "matrix": [ </br> ["A", "B", "C"], </br> ["E", "B", "10x"], </br> ["F", "D", "B"] </br> ], </br> "reward": 50000, </br> "applied_winning_combinations": {</br> "B": ["same_symbol_3_times"] </br> }, </br> "applied_bonus_symbol": "10x" </br> } |
+| input             | output                                                                                                                                                                                                                                                                       |
+|-------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| "bet_amount": 100 | { </br> "matrix": [ </br> ["A", "B", "C"], </br> ["E", "B", "10x"], </br> ["F", "D", "B"] </br> ], </br> "reward": 50000, "THIS IS ALSO WRONG" </br> "applied_winning_combinations": {</br> "B": ["same_symbol_3_times"] </br> }, </br> "applied_bonus_symbol": "10x" </br> } |
 
 Description: user placed a bet with 100 betting amount and generated matrix has 3 same symbols which matches with the winning combination, also 10x bonus also will be applied.
 Formula: 100(betting amount) x 3 | reward(symbol B) x1(at least 3 same symbols winning combination) x10(x10 bonus symbol) = 3000 (winning amount)

@@ -60,4 +60,53 @@ class ScoreCalculatorTest {
         assertEquals(3600, result);
     }
 
+    @Test
+    public void testThirdExampleOfLostGame(){
+
+        // Given
+        String[][] matrix = {
+                {"A", "B", "C"},
+                {"E", "B", "5x"},
+                {"F", "D", "C"}
+        };
+        double betAmount = 100.0;
+        ScoreCalculator calculator = new ScoreCalculator(
+                config.getWinCombinations(),
+                config.getSymbols(),
+                betAmount
+        );
+
+        // When
+        Double result = calculator.calculateScore(matrix);
+
+        System.out.println(result);
+
+        // Then
+        assertEquals(0, result);
+    }
+
+    @Test
+    public void testFourthExample(){
+
+        // Given
+        String[][] matrix = {
+                {"A", "B", "C"},
+                {"E", "B", "10x"},
+                {"F", "D", "B"}
+        };
+        double betAmount = 100.0;
+        ScoreCalculator calculator = new ScoreCalculator(
+                config.getWinCombinations(),
+                config.getSymbols(),
+                betAmount
+        );
+
+        // When
+        Double result = calculator.calculateScore(matrix);
+
+        System.out.println(result);
+
+        // Then
+        assertEquals(3000, result);
+    }
 }
