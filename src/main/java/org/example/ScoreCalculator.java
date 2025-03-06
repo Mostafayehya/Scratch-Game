@@ -50,8 +50,8 @@ public class ScoreCalculator {
         // Check same symbol counts
         for (Map.Entry<String, WinCombination> entry : winCombinations.entrySet()) {
             WinCombination combo = entry.getValue();
-            if ("same_symbols".equals(combo.getWhen()) && symbolCount == combo.getCount()) {
-                reward = betAmount * symbolConfig.rewardMultiplier() * combo.getRewardMultiplier();
+            if ("same_symbols".equals(combo.when()) && symbolCount == combo.count()) {
+                reward = betAmount * symbolConfig.rewardMultiplier() * combo.rewardMultiplier();
                 break;
             }
         }
@@ -59,8 +59,8 @@ public class ScoreCalculator {
         // Check linear patterns
         for (Map.Entry<String, WinCombination> entry : winCombinations.entrySet()) {
             WinCombination combo = entry.getValue();
-            if ("linear_symbols".equals(combo.getWhen()) && hasLinearPattern(matrix, symbol, combo)) {
-                reward *=  combo.getRewardMultiplier();
+            if ("linear_symbols".equals(combo.when()) && hasLinearPattern(matrix, symbol, combo)) {
+                reward *=  combo.rewardMultiplier();
             }
         }
 
@@ -68,9 +68,9 @@ public class ScoreCalculator {
     }
 
     private boolean hasLinearPattern(String[][] matrix, String symbol, WinCombination combo) {
-        if (combo.getCoveredAreas() == null) return false;
+        if (combo.coveredAreas() == null) return false;
 
-        for (List<String> pattern : combo.getCoveredAreas()) {
+        for (List<String> pattern : combo.coveredAreas()) {
             boolean matches = pattern.stream().allMatch(pos -> {
                 String[] coordinates = pos.split(":");
                 int row = Integer.parseInt(coordinates[0]);
