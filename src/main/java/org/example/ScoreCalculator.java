@@ -29,8 +29,8 @@ public class ScoreCalculator {
         }
 
         // Apply bonus symbol if any winning combinations were found
+        String bonusSymbol = findBonusSymbol(matrix);
         if (totalReward > 0) {
-            String bonusSymbol = findBonusSymbol(matrix);
             if (bonusSymbol != null) {
                 SymbolConfig bonusConfig = symbols.get(bonusSymbol);
                 if ("multiply_reward".equals(bonusConfig.impact()) && bonusConfig.rewardMultiplier() != 0) {
@@ -41,7 +41,7 @@ public class ScoreCalculator {
             }
         }
 
-        return new GameResult(matrix, totalReward, Collections.emptyMap(), "");
+        return new GameResult(matrix, totalReward, appliedWinningCombinations, bonusSymbol);
     }
 
     private double calculateSymbolReward(String[][] matrix, String symbol, Map<String, List<String>> appliedWinningCombinations) {

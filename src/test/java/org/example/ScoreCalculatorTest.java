@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.nio.file.Paths;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -88,7 +89,7 @@ class ScoreCalculatorTest {
 
         GameResult result = calculateScore(matrix, STANDARD_BET);
         assertEquals(3000, result.reward(), "Should calculate correct reward for three same symbols with multiplier");
-        assertEquals(1, result.appliedWinningCombinations().size(), "Should have one winning combination");
+        assertEquals(List.of("same_symbol_3_times"), result.appliedWinningCombinations().get("B"), "Should have one winning combination");
         assertEquals("10x", result.appliedBonusSymbol(), "Should have correct bonus symbol");
         assertEquals(3, result.matrix().length, "Should have correct number of rows");
         assertEquals(3, result.matrix()[0].length, "Should have correct number of columns");
