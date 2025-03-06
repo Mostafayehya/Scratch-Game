@@ -31,10 +31,10 @@ public class ScoreCalculator {
             String bonusSymbol = findBonusSymbol(matrix);
             if (bonusSymbol != null) {
                 SymbolConfig bonusConfig = symbols.get(bonusSymbol);
-                if ("multiply_reward".equals(bonusConfig.getImpact()) && bonusConfig.getRewardMultiplier() != 0) {
-                    totalReward *= bonusConfig.getRewardMultiplier();
-                } else if ("extra_bonus".equals(bonusConfig.getImpact())) {
-                    totalReward += bonusConfig.getExtra();
+                if ("multiply_reward".equals(bonusConfig.impact()) && bonusConfig.rewardMultiplier() != 0) {
+                    totalReward *= bonusConfig.rewardMultiplier();
+                } else if ("extra_bonus".equals(bonusConfig.impact())) {
+                    totalReward += bonusConfig.extra();
                 }
             }
         }
@@ -51,7 +51,7 @@ public class ScoreCalculator {
         for (Map.Entry<String, WinCombination> entry : winCombinations.entrySet()) {
             WinCombination combo = entry.getValue();
             if ("same_symbols".equals(combo.getWhen()) && symbolCount == combo.getCount()) {
-                reward = betAmount * symbolConfig.getRewardMultiplier() * combo.getRewardMultiplier();
+                reward = betAmount * symbolConfig.rewardMultiplier() * combo.getRewardMultiplier();
                 break;
             }
         }
@@ -85,7 +85,7 @@ public class ScoreCalculator {
     private String findBonusSymbol(String[][] matrix) {
         for (String[] row : matrix) {
             for (String cell : row) {
-                if (symbols.containsKey(cell) && "bonus".equals(symbols.get(cell).getType())) {
+                if (symbols.containsKey(cell) && "bonus".equals(symbols.get(cell).type())) {
                     return cell;
                 }
             }
@@ -97,7 +97,7 @@ public class ScoreCalculator {
         Set<String> standardSymbols = new HashSet<>();
         for (String[] row : matrix) {
             for (String cell : row) {
-                if (symbols.containsKey(cell) && "standard".equals(symbols.get(cell).getType())) {
+                if (symbols.containsKey(cell) && "standard".equals(symbols.get(cell).type())) {
                     standardSymbols.add(cell);
                 }
             }
