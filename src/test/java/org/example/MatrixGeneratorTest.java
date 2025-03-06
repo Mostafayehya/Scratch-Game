@@ -5,91 +5,80 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class MatrixGeneratorTest {
+    private static final int EXPECTED_ROWS = 3;
+    private static final int EXPECTED_COLS = 3;
+    private static final int EXPECTED_SYMBOLS_COUNT = 11;
+    private static final int EXPECTED_STANDARD_SYMBOLS_COUNT = 9;
+    private static final int EXPECTED_BONUS_5X_VALUE = 2;
+    private static final String CONFIG_PATH = Paths.get("src", "main", "resources", "config.json").toString();
 
-    Map<String, Integer> symbols;
-    MatrixGenerator matrixGenerator;
-    List<Map<String, Integer>> standardSymbolsPerCell = TestFixtures.getStandardSymbolsPerCell();
-    Map<String, Integer> bonusSymbols = TestFixtures.getBonusSymbols();
-    String configPath = Paths.get("src", "main", "resources", "config.json").toString();
-    GameConfig config = ConfigLoader.loadConfig(configPath);
+    private MatrixGenerator matrixGenerator;
+    private GameConfig config;
+    private Map<String, Integer> standardSymbols;
+    private Map<String, Integer> bonusSymbols;
 
     @BeforeEach
     void setUp() {
         matrixGenerator = new MatrixGenerator();
-        symbols = TestFixtures.getSymbols();
+        config = ConfigLoader.loadConfig(CONFIG_PATH);
+        standardSymbols = TestFixtures.getSymbols();
+        bonusSymbols = TestFixtures.getBonusSymbols();
     }
 
     @Test
-    public void generate() {
-        String[][] matrix = matrixGenerator.generate(3, 3, config.getProbabilities());
-        assert matrix.length == 3;
-        assert matrix[0].length == 3;
+    void shouldGenerateMatrixWithCorrectDimensions() {
+        String[][] matrix = generateMatrix();
+
+        assertEquals(EXPECTED_ROWS, matrix.length, "Matrix should have correct number of rows");
+        assertEquals(EXPECTED_COLS, matrix[0].length, "Matrix should have correct number of columns");
     }
 
     @Test
-    public void generateWithSpecificSymbol() {
-        String[][] matrix = matrixGenerator.generate(3, 3, config.getProbabilities());
-        assert symbols.containsKey(matrix[0][0]);
+    void shouldGenerateMatrixWithValidSymbols() {
+        String[][] matrix = generateMatrix();
+        String firstSymbol = matrix[0][0];
+
+        assertTrue(standardSymbols.containsKey(firstSymbol), "Matrix should contain valid symbols");
     }
 
     @Test
-    public void generateWithDifferentSymbols() {
-        String[][] matrix = matrixGenerator.generate(3, 3, config.getProbabilities());
-        assert symbols.containsKey(matrix[0][0]);
+    void shouldGenerateMatrixWithAtLeastOneBonusSymbol() {
+        String[][] matrix = generateMatrix();
+
+        assertTrue(containsBonusSymbol(matrix), "Matrix should contain at least one bonus symbol");
     }
 
     @Test
-    public void testValidConfig() {
-
-
-        assertNotNull(config, "Config Should not be null");
-        assertEquals(3, config.getRows());
-
-        assertEquals(3, config.getColumns());
-        assertEquals(11, config.getSymbols().size());
-        assertEquals(9, config.getProbabilities().getStandardSymbols().size());
-        assertEquals(2, config.getProbabilities().getBonusSymbols().getSymbols().get("5x"));
-
-        assertEquals(11, config.getWinCombinations().size());
-
+    void shouldLoadValidConfiguration() {
+        assertNotNull(config, "Config should not be null");
+        assertEquals(EXPECTED_ROWS, config.getRows(), "Config should have correct number of rows");
+        assertEquals(EXPECTED_COLS, config.getColumns(), "Config should have correct number of columns");
+        assertEquals(EXPECTED_SYMBOLS_COUNT, config.getSymbols().size(), "Config should have correct number of symbols");
+        assertEquals(EXPECTED_STANDARD_SYMBOLS_COUNT, config.getProbabilities().getStandardSymbols().size(),
+                "Config should have correct number of standard symbols");
+        assertEquals(EXPECTED_BONUS_5X_VALUE, config.getProbabilities().getBonusSymbols().getSymbols().get("5x"),
+                "Config should have correct 5x bonus value");
+        assertEquals(EXPECTED_SYMBOLS_COUNT, config.getWinCombinations().size(),
+                "Config should have correct number of win combinations");
     }
 
-    @Test
-    public void generateWithPossibilities() {
-        // Given
+    private String[][] generateMatrix() {
+        return matrixGenerator.generate(EXPECTED_ROWS, EXPECTED_COLS, config.getProbabilities());
+    }
 
-        MatrixGenerator generator = new MatrixGenerator();
-        int rows = 3;
-        int cols = 3;
-
-        // When
-        String[][] matrix = generator.generate(rows, cols, config.getProbabilities());
-
-        System.out.println("Generated Matrix:");
-        for (String[] row : matrix) {
-            System.out.println(Arrays.toString(row));
-        }
-
-        // Then: Assert the matrix contains at least one bonus symbol
-        boolean containsBonusSymbol = false;
+    private boolean containsBonusSymbol(String[][] matrix) {
         for (String[] row : matrix) {
             for (String cell : row) {
                 if (bonusSymbols.containsKey(cell)) {
-                    containsBonusSymbol = true;
-                    break;
+                    return true;
                 }
             }
-            if (containsBonusSymbol) break;
         }
-
-        assert containsBonusSymbol : "The generated matrix does not contain any bonus symbols.";
+        return false;
     }
 }
