@@ -62,7 +62,7 @@ public class ScoreCalculator {
         // Check linear patterns
         for (Map.Entry<String, WinCombination> entry : winCombinations.entrySet()) {
             WinCombination combo = entry.getValue();
-            if ("linear_symbols".equals(combo.when()) && hasLinearPattern(matrix, symbol, combo)) {
+            if ("linear_symbols".equals(combo.when()) && hasLinearOrDiagonalPattern(matrix, symbol, combo)) {
                 appliedWinningCombinations.put(symbol, List.of(entry.getKey()));
                 reward *= combo.rewardMultiplier();
             }
@@ -71,7 +71,7 @@ public class ScoreCalculator {
         return reward;
     }
 
-    private boolean hasLinearPattern(String[][] matrix, String symbol, WinCombination combo) {
+    private boolean hasLinearOrDiagonalPattern(String[][] matrix, String symbol, WinCombination combo) {
         if (combo.coveredAreas() == null) return false;
 
         for (List<String> pattern : combo.coveredAreas()) {

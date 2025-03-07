@@ -44,6 +44,30 @@ class ScoreCalculatorTest {
     }
 
     @Test
+    void testLTRDiagonalLinesCombination() {
+        String[][] matrix = {
+                {"A", "B", "C"},
+                {"E", "A", "C"},
+                {"F", "B", "A"}
+        };
+
+        GameResult result = calculateScore(matrix, SMALL_BET);
+        assertEquals(25, result.reward(), "Should calculate correct reward for LTR diagonal lines");
+    }
+
+    @Test
+    void testRTLDiagonalLinesCombination() {
+        String[][] matrix = {
+                {"C", "B", "A"},
+                {"E", "A", "C"},
+                {"A", "B", "F"}
+        };
+
+        GameResult result = calculateScore(matrix, SMALL_BET);
+        assertEquals(25, result.reward(), "Should calculate correct reward for RTL diagonal lines");
+    }
+
+    @Test
     void testSameSymbolsWithBonus() {
         String[][] matrix = {
                 {"A", "A", "B"},

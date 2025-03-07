@@ -6,12 +6,12 @@
 
 [DONE] Parse and deserialize the config file to classes 
 
-Take input from command line for config file and betting amount 
-[ ] Calculate score
+[DONE] Calculate score
 
-Print the matrix and the result of the game
-
-[  ] Output the correct format
+[DONE] Output the correct format
+[] Consider Diagonal scores
+[] Take input from command line for config file and betting amount
+[DONE] Print the matrix and the result of the game
 
 
 
