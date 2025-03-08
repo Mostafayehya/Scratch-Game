@@ -11,9 +11,14 @@
 - [x] Print the matrix and the result of the game
 - [x] Take input from command line for config file and betting amount
 - [x] Package as JAR
+- [x] Fix display Bonus Symbol Applied when game lost
 ## TODO
-- [ ] Fix display Bonus Symbol Applied when game lost
 - [ ] Enhance README
+- [ ] Refactor to patterns 
+- [ ] Add more tests 
+- [ ] Rename produced JAR
+- [ ] Better package naming
+- [ ] Maybe simplify the design of the classes, and make the game run in memory instead of parsing config into classes
 
 
 
