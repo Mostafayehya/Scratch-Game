@@ -15,7 +15,6 @@ public class ScratchGame {
 
     public GameResult play(double betAmount) {
         String[][] matrix = matrixGenerator.generate(config.rows(), config.columns(), config.probabilities());
-
         ScoreCalculator calculator = new ScoreCalculator(
                 config.winCombinations(),
                 config.symbols(),

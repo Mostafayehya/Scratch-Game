@@ -51,30 +51,30 @@ public class ScoreCalculator {
 
         // Check same symbol counts
         for (Map.Entry<String, WinCombination> entry : winCombinations.entrySet()) {
-            WinCombination combo = entry.getValue();
-            if ("same_symbols".equals(combo.when()) && symbolCount == combo.count()) {
+            WinCombination winCombination = entry.getValue();
+            if ("same_symbols".equals(winCombination.when()) && symbolCount == winCombination.count()) {
                 appliedWinningCombinations.put(symbol, List.of(entry.getKey()));
-                reward = betAmount * symbolConfig.rewardMultiplier() * combo.rewardMultiplier();
+                reward = betAmount * symbolConfig.rewardMultiplier() * winCombination.rewardMultiplier();
                 break;
             }
         }
 
-        // Check linear patterns
+        // Check linear and diagonal patterns
         for (Map.Entry<String, WinCombination> entry : winCombinations.entrySet()) {
-            WinCombination combo = entry.getValue();
-            if ("linear_symbols".equals(combo.when()) && hasLinearOrDiagonalPattern(matrix, symbol, combo)) {
+            WinCombination winCombination = entry.getValue();
+            if ("linear_symbols".equals(winCombination.when()) && hasLinearOrDiagonalPattern(matrix, symbol, winCombination)) {
                 appliedWinningCombinations.put(symbol, List.of(entry.getKey()));
-                reward *= combo.rewardMultiplier();
+                reward *= winCombination.rewardMultiplier();
             }
         }
 
         return reward;
     }
 
-    private boolean hasLinearOrDiagonalPattern(String[][] matrix, String symbol, WinCombination combo) {
-        if (combo.coveredAreas() == null) return false;
+    private boolean hasLinearOrDiagonalPattern(String[][] matrix, String symbol, WinCombination winCombination) {
+        if (winCombination.coveredAreas() == null) return false;
 
-        for (List<String> pattern : combo.coveredAreas()) {
+        for (List<String> pattern : winCombination.coveredAreas()) {
             boolean matches = pattern.stream().allMatch(pos -> {
                 String[] coordinates = pos.split(":");
                 int row = Integer.parseInt(coordinates[0]);
