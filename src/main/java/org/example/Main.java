@@ -25,26 +25,11 @@ package org.example;
         }
 
         private static void printGameResult(GameResult result) {
-            System.out.println("\nGame Matrix:");
-            for (String[] row : result.matrix()) {
-                System.out.println(String.join(" ", row));
-            }
-
-            System.out.printf("\nReward: %.2f%n", result.reward());
-
-            if (!result.appliedWinningCombinations().isEmpty()) {
-                System.out.println("\nWinning Combinations:");
-                result.appliedWinningCombinations().forEach((symbol, combinations) ->
-                    System.out.printf("Symbol %s: %s%n", symbol, String.join(", ", combinations)));
-            }
-
-            if (result.appliedBonusSymbol() != null) {
-                System.out.printf("\nBonus Symbol Applied: %s%n", result.appliedBonusSymbol());
-            }
+            System.out.println(result.toString());
         }
 
         private static void printUsage() {
             System.out.println("Usage: java -jar slot-game.jar --config <config-path> --betting-amount <amount>");
-            System.out.println("Example: java -jar slot-game.jar --config config.json --betting-amount 100");
+            System.out.println("Example: java -jar target/ScratchGame-1.0-jar-with-dependencies.jar --config src/main/resources/config.json --betting-amount 200");
         }
     }

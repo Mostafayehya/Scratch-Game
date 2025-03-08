@@ -9,9 +9,10 @@
 - [x] Output the correct format
 - [x] Consider Diagonal scores
 - [x] Print the matrix and the result of the game
+- [x] Take input from command line for config file and betting amount
+- [x] Package as JAR
 ## TODO
-- [ ] Take input from command line for config file and betting amount
-- [ ] Package as JAR 
+- [ ] Fix display Bonus Symbol Applied when game lost
 - [ ] Enhance README
 
 

@@ -9,6 +9,7 @@ import java.nio.file.Paths;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class ScoreCalculatorTest {
     private GameConfig config;
@@ -104,7 +105,7 @@ class ScoreCalculatorTest {
     }
 
     @Test
-    void testGameResultFormat(){
+    void testGameResultFormat() {
         String[][] matrix = {
                 {"A", "B", "C"},
                 {"E", "B", "10x"},
@@ -117,5 +118,22 @@ class ScoreCalculatorTest {
         assertEquals("10x", result.appliedBonusSymbol(), "Should have correct bonus symbol");
         assertEquals(3, result.matrix().length, "Should have correct number of rows");
         assertEquals(3, result.matrix()[0].length, "Should have correct number of columns");
+    }
+
+    @Test
+    void testWhenLostGameThereShouldBeNoWinningCombinations() {
+        String[][] lostMatrix = {
+                {"A", "B", "C"},
+                {"D", "E", "F"},
+                {"G", "H", "I"}
+        };
+
+        GameResult result = calculateScore(lostMatrix, STANDARD_BET);
+        String expectedResultAsJson = """
+                {
+                  "matrix" : [ [ "A", "B", "C" ], [ "D", "E", "F" ], [ "G", "H", "I" ] ],
+                  "reward" : 0.0
+                }""";
+        assertEquals(expectedResultAsJson, result.toString());
     }
 }

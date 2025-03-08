@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ScratchGameTest {
     private static final String CONFIG_PATH = Paths.get("src", "main", "resources", "config.json").toString();
+
     @Test
     void testPlay() {
         ScratchGame game = new ScratchGame(CONFIG_PATH);
